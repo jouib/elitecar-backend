@@ -106,9 +106,9 @@ export class PedidoVenda {
     }
 
     /**
-     * Retorna o CPF do cliente
+     * Retorna o valor do pedido
      *
-     * @returns {Number} O Cpf do cliente
+     * @returns {Number} O valor do pedido
      */
     public getValorPedido(): number {
         return this.valorPedido;
