@@ -115,7 +115,7 @@ export class PedidoVenda {
     }
 
     /**
-     * Define o cpf do cliente
+     * Define o valor do pedido
      *
      * @param valorPedido - O valor do pedido a ser definido
      */
