@@ -1,14 +1,15 @@
-import { DatabaseModel } from './model/DatabaseModel';
 import { server } from './server';
+import { DatabaseModel } from './model/DatabaseModel';
 
 const port: number = 3333;
 
-new DatabaseModel().testeConexao().then((resbd) => {
-    if(resbd) {
-        server.listen(3333, () => {
-            console.log(`Servidor rodando em http://localhost:${3333}`);
-        })
-    } else {
-        console.log('Não foi possível conectar ao banco de dados');
-    }
-})
+new DatabaseModel().testeConexao().then((resdb) => {
+  if (resdb) {
+    server.listen(port, () => {
+      console.clear();
+      console.log(`Endereço do servidor: http://localhost:${port}`);
+    });
+  } else {
+    console.log(`Erro ao conectar com o banco de dados.`);
+  }
+});
