@@ -1,6 +1,5 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
-import { server } from '../server';
 
 dotenv.config();
 
@@ -55,13 +54,13 @@ export class DatabaseModel {
         try {
             // Tenta conectar ao banco de dados
             await this._client.connect();
-            console.log('Banco de dados conectado!');
+            console.log('Database connected!');
             // Encerra a conexão
             this._client.end();
             return true;
         } catch (error) {
             // Em caso de erro, exibe uma mensagem de erro
-            console.log('Erro ao conectar com o banco de dados X( ');
+            console.log('Error to connect database X( ');
             console.log(error);
             // Encerra a conexão
             this._client.end();
