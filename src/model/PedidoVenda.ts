@@ -6,6 +6,9 @@ const database = new DatabaseModel().pool;
  * Classe que representa um Pedido de Venda.
  */
 export class PedidoVenda {
+    static cadastroPedido(novoPedido: any) {
+        throw new Error("Method not implemented.");
+    }
     /**
      * Identificador único do pedido de venda.
      */
@@ -154,6 +157,55 @@ export class PedidoVenda {
         } catch (error) {
             console.log('Erro ao buscar lista de pedidos');
             return null;
+        }
+    }
+
+     /**
+     * Realiza o cadastro de um pedido no banco de dados.
+     * 
+     * Esta função recebe um objeto do tipo `Pedido` e insere seus dados (id_Carro, id_Cliente e DataPedido)
+     * na tabela `carro` do banco de dados. O método retorna um valor booleano indicando se o cadastro 
+     * foi realizado com sucesso.
+     * 
+     * @param {PedidoVenda} pedidoVenda - Objeto contendo os dados do pedido que será cadastrado. O objeto `Carro`
+     *                        deve conter os métodos `getIdCarro()`, `getIdCliente()` e `getDataPedido()`
+     *                        que retornam os respectivos valores do carro.
+     * @returns {Promise<boolean>} - Retorna `true` se o carro foi cadastrado com sucesso e `false` caso contrário.
+     *                               Em caso de erro durante o processo, a função trata o erro e retorna `false`.
+     * 
+     * @throws {Error} - Se ocorrer algum erro durante a execução do cadastro, uma mensagem de erro é exibida
+     *                   no console junto com os detalhes do erro.
+     */
+     static async cadastroCarro(pedidoVenda: PedidoVenda): Promise<boolean> {
+        try {
+            // query para fazer insert de um carro no banco de dados
+            const queryInsertCarro = `INSERT INTO pedidoVenda (id_carro, id_cliente, datapedido)
+                                        VALUES
+                                        ('${pedidoVenda.getIdCarro()}', 
+                                        '${pedidoVenda.getIdCliente()}', 
+                                        ${pedidoVenda.getDataPedido()}, 
+                                        RETURNING id_pedido;`;
+
+            // executa a query no banco e armazena a resposta
+            const respostaBD = await database.query(queryInsertCarro);
+
+            // verifica se a quantidade de linhas modificadas é diferente de 0
+            if (respostaBD.rowCount != 0) {
+                console.log(`Pedido cadastrado com sucesso! ID do pedido: ${respostaBD.rows[0].id_pedido}`);
+                // true significa que o cadastro foi feito
+                return true;
+            }
+            // false significa que o cadastro NÃO foi feito.
+            return false;
+
+            // tratando o erro
+        } catch (error) {
+            // imprime outra mensagem junto com o erro
+            console.log('Erro ao cadastrar o pedido. Verifique os logs para mais detalhes.');
+            // imprime o erro no console
+            console.log(error);
+            // retorno um valor falso
+            return false;
         }
     }
 }

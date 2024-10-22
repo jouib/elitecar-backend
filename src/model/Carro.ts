@@ -173,7 +173,6 @@ export class Carro {
             return null;
         }
     }
-
     
     /**
      * Realiza o cadastro de um carro no banco de dados.
